@@ -1,6 +1,6 @@
 from tkinter import PhotoImage
 import customtkinter as ctk
-from cadastro_veiculo import CadastroVeiculo
+from  janelas.cadastro_veiculo import CadastroVeiculo
 
 class App(ctk.CTk):
     def __init__(self):
@@ -39,7 +39,6 @@ class App(ctk.CTk):
                                          font=('Open Sans', 16, 'bold'))
         self.btnExibir.pack(side='left', expand=True)
 
-        
         
     
     def cadastro(self):
