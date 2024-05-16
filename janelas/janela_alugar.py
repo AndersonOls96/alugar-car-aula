@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from janelas.cadastro_cliente import CadastroCliente
+from db.database import Database
 
 class AlugarVeiculo(ctk.CTkToplevel):
     def __init__(self, master=None):
@@ -22,7 +23,7 @@ class AlugarVeiculo(ctk.CTkToplevel):
         
         self.labelPlaca = ctk.CTkLabel(self.frameItens, text='Placa:', font=('Open Sans', 16, 'bold'))
         self.labelPlaca.grid(row=0, column=0, padx=10, pady=(100, 10), sticky='w')
-        self.comboPlaca = ctk.CTkComboBox(self.frameItens, font=('Open Sans', 16))
+        self.comboPlaca = ctk.CTkComboBox(self.frameItens, font=('Open Sans', 16), values=self.carregar_placas())
         self.comboPlaca.grid(row=0, column=1, padx=10, pady=(100, 10), sticky='w')
         
         self.labelModelo = ctk.CTkLabel(self.frameItens, text='Modelo:', font=('Open Sans', 16, 'bold'))
@@ -57,10 +58,30 @@ class AlugarVeiculo(ctk.CTkToplevel):
         self.botaoAlugar = ctk.CTkButton(self.frameItens, text='Alugar', font=('Open Sans', 16, 'bold'), corner_radius=0)
         self.botaoAlugar.grid(row=4, column=0, columnspan = 1, padx=10, pady=10, sticky='ew')
         
+        print(self.carregar_placas())
+        self.preencher_campos()
+        
+        
+        
     def cadastrar_cliente(self):
         janela_cadastro = CadastroCliente(self)
         janela_cadastro.grab_set()
     
+    def carregar_placas(self):
+        db = Database("db/veiculos.db")
+        db.connect()
+        query = "SELECT placa FROM veiculos WHERE disponibilidade = 'Disponível'"
+        cursor = db.connection.cursor()
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        values = ['Selecione uma placa']
+        for row in rows:
+            values.append(row[0])
+        db.disconnect()
+        return values
+
+    
+        
         
         
         
