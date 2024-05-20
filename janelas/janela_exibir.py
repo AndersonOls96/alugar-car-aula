@@ -46,7 +46,7 @@ class ExibirVeiculos(ctk.CTkToplevel):
         
 
     def exibir_veiculos(self):
-        db = Database("db/veiculos.db")
+        db = Database("db/locadora.db")
         db.connect()
         query = "SELECT * FROM veiculos"
         cursor = db.connection.cursor()

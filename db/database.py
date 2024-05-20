@@ -40,7 +40,10 @@ class Database:
             messagebox.showerror("Erro", msg_error)
 
 # Exemplo de uso
-db = Database("db/veiculos.db")
+db = Database("db/locadora.db")
 db.connect()
 db.create_table("veiculos", ["placa TEXT PRIMARY KEY", "marca TEXT", "modelo TEXT", "ano INTEGER", "disponibilidade TEXT DEFAULT 'Disponível'"])
+db.create_table("clientes", ["cpf TEXT PRIMARY KEY", "nome TEXT", "telefone TEXT", "email TEXT"])
+db.create_table("alugueis", ["id INTEGER PRIMARY KEY", "placa TEXT", "cpf TEXT", "data_inicio TEXT", "data_fim TEXT"])
 db.disconnect()
+

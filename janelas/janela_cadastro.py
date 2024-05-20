@@ -52,7 +52,7 @@ class CadastroVeiculo(ctk.CTkToplevel):
         print(placa, marca, modelo, ano)
 
         if placa and marca and modelo and ano:
-            db = Database("db/veiculos.db")
+            db = Database("db/locadora.db")
             db.connect()
             query = f"INSERT INTO veiculos (placa, marca, modelo, ano) VALUES ('{placa}', '{marca}', '{modelo}', '{ano}')"
             msg_ok = "Veículo cadastrado com sucesso."

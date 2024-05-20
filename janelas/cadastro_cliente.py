@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from db.database import Database
 
 class CadastroCliente(ctk.CTkToplevel):
     def __init__(self, master=None):
@@ -34,10 +35,29 @@ class CadastroCliente(ctk.CTkToplevel):
         self.entryCPF = ctk.CTkEntry(self.frameItens, font=('Open Sans', 16))
         self.entryCPF.pack(pady=5)
 
-        self.labeEndereco = ctk.CTkLabel(self.frameItens, text='Endereço', font=('Open Sans', 16))
-        self.labeEndereco.pack(pady=10)
-        self.entrEndereco = ctk.CTkEntry(self.frameItens, font=('Open Sans', 16))
-        self.entrEndereco.pack(pady=5)
+        self.labeEmail = ctk.CTkLabel(self.frameItens, text='Email', font=('Open Sans', 16))
+        self.labeEmail.pack(pady=10)
+        self.entryEmail = ctk.CTkEntry(self.frameItens, font=('Open Sans', 16))
+        self.entryEmail.pack(pady=5)
 
-        self.btnCadastrar = ctk.CTkButton(self.frameItens, text='Cadastrar', font=('Open Sans', 16))
+        self.btnCadastrar = ctk.CTkButton(self.frameItens, text='Cadastrar', font=('Open Sans', 16), command=self.cadastrar_cliente)
         self.btnCadastrar.pack(pady=30)
+
+    def cadastrar_cliente(self):
+        cpf = self.entryCPF.get()
+        nome = self.entryNome.get()
+        telefone = self.entryTelefone.get()
+        email = self.entryEmail.get()
+        
+        if cpf and nome and telefone and email:
+            db = Database("db/locadora.db")
+            db.connect()
+            query = f"INSERT INTO clientes (cpf, nome, telefone, email) VALUES ('{cpf}', '{nome}', '{telefone}', '{email}')"
+            msg_ok = "Cliente cadastrado com sucesso."
+            msg_error = "Erro ao cadastrar cliente."
+            db.execute_query(query, msg_ok, msg_error)
+            self.entryCPF.delete(0, 'end')
+            self.entryNome.delete(0, 'end')
+            self.entryTelefone.delete(0, 'end')
+            self.entryEmail.delete(0, 'end')
+            db.disconnect()
